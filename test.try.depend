@@ -1,0 +1,14 @@
+# depslib dependency file v1.0
+1527171906 source:d:\com.port.test\test.try\main.cpp
+	<iostream>
+	<vector>
+	"classToFile.h"
+	<stdlib.h>
+	<time.h>
+
+1527164917 source:d:\com.port.test\test.try\classtofile.cpp
+	"classToFile.h"
+	<iostream>
+
+1527164917 d:\com.port.test\test.try\classtofile.h
+
