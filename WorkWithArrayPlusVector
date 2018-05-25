@@ -1,0 +1,43 @@
+#include <iostream>
+#include <vector>
+//#include <stdlib.h> // rand(), srand()
+#include <ctime> //time
+using namespace std;
+int main()
+{
+    srand(time(NULL));
+    int arrSize = 8000;
+    int sum = 0;
+    std::vector<vector<int>> vecMatrix(arrSize, vector<int>(arrSize, 0)); // allocate memory for vect
+    unsigned int initStart = clock();
+    for(int i=0; i<vecMatrix.size(); i++){
+        for( int j=0; j<vecMatrix.size(); j++){
+            vecMatrix[i][j] = rand()%100;
+        }
+    }
+    unsigned int initEnd = clock();
+    cout << "Initialization: " << (initEnd - initStart) << "ms" << endl;
+    initStart = clock();
+    for(int i=0; i<vecMatrix.size(); i++){
+        for( int j=0; j<vecMatrix.size(); j++){
+            vecMatrix[i][j] = 0;
+        }
+    }
+    initEnd = clock();
+    cout << "\nRequest to array: " << (initEnd - initStart) << "ms" << endl;
+    // change to vector<vector<type_T>> var(N, vector<type_T>(N,0))
+    initStart = clock();
+    for(int i=0, j=arrSize-1; i<arrSize-1, j>=0; i++,j--){
+        sum += vecMatrix[i][j];
+    }
+    for(int i=arrSize-1, j=1; j<arrSize; j++){
+        sum +=  vecMatrix[i][j];
+    }
+    for(int i=1, j=arrSize-1; i<arrSize-1; i++){
+        sum +=  vecMatrix[i][j];
+    }
+    initEnd = clock(); // end time
+    cout << "\nTotalTime: " << (initEnd - initStart) << "ms" << endl;
+    cout << "\nSum equal: " << sum << endl;
+    return 0;
+}
