@@ -4,6 +4,7 @@
 #include "classToFile.h"
 #include <stdlib.h> // rand(), srand()
 #include <time.h> //time
+#include <iomanip>
 
 using namespace std;
 void sumOfX();
@@ -31,6 +32,7 @@ private:
 
 int main()
 {
+    clock_t start = clock();
     // code for vector resizing
     /*std::vector<int> myvector;
 
@@ -77,7 +79,14 @@ int main()
     */
     //const classToFile obj2;
     //obj2.myPrint();
+//    auto start = std::chrono::steady_clock::now();// initial time
+    cout << "\nstartTime: " << start << endl;
     sumOfX();
+    clock_t theEnd = clock(); // end time
+    cout << "\nend time: " << theEnd << endl;
+    double requiredTime = (double)(theEnd - start) - CLOCKS_PER_SEC;
+    cout << "\nRequiredTime: " << requiredTime << endl;
+
 
     return 0;
 }
@@ -85,9 +94,12 @@ int main()
 void sumOfX()
 {
     srand(time(NULL));
-    int arrSize = 4;
+    int arrSize = 700;
     int sum = 0;
-    int arr[arrSize][arrSize];
+    // change to vector<vector<type_T>> var(N, vector<type_T>(N,0))
+    // посчитать время выполнения алгоритма (подсчёта матрицы)
+    // посчитать время прохода по каждой ячейке матрицы (с помощью for(auto i: var))
+    unsigned int arr[arrSize][arrSize];
     /*{
         {0, 45, 0, 2,},
         {0, 0, 1, 1,},
@@ -108,12 +120,12 @@ void sumOfX()
     a[3][0] - a[3][3].
     */
 
-    // Äëÿ ïîääåðæêè ìàñøòàáèðîâàíèÿ
-    // ìàòðèöû íóæíî
-    // ïîñ÷èòàòü ñíà÷àëà äèàãîíàëü,
-    // ïîòîì äâå ñòîðîíû.
+    // Для поддержки масштабирования
+    // матрицы нужно
+    // посчитать сначала диагональ,
+    // потом две стороны.
     /*
-    ñ÷èòàåì äèàãîíàëü:
+    считаем диагональ:
     sum += arr[arrSize-4][arrSize-1] +
     arr[arrSize-3][arrSize-2] +
     arr[arrSize-2][arrSize-3] +
@@ -122,31 +134,44 @@ void sumOfX()
 
     // array viewer
     cout << "\nAn array: " << endl;
-    // this cycle is wrong
-    /*
-    for (int i=0; i<arrSize; i++)
+   /* for (int i=0; i<arrSize; i++)
     {
         //cout << i << ' ';
         for (int j=0; j<arrSize; j++)
         {
-            // ñ÷èòàåì ïîáî÷íóþ äèàãîíàëü
+          /*  // считаем побочную диагональ
             if(i == arrSize-j-1)
                 sum += arr[i][j];
-            // ñ÷èòàåì ñòîðîíû ìàòðèöû
-            // íèç ìàòðèöû
+            // считаем стороны матрицы
+            // низ матрицы
             if(i == arrSize-1)
                 sum += arr[i][j+1];
-            // ïðàâàÿ ñòîðîíà ìàòðèöû
+            // правая сторона матрицы
             if(j == arrSize-1)
                 sum += arr[i][j];
-            // ýëåìåíòû íà ïåðåñå÷åíèè äèàãîíàëè è ñòîðîí
-            // 3 øò. ïðîãðàììà ñ÷èòàåò äâàæäû
-            cout << arr[i][j] << ' ';
+            // элементы на пересечении диагонали и сторон
+            // 3 шт. программа считает дважды
+            cout << setw(2) << arr[i][j] << ' ';
         }
         cout << endl;
     }*/
-    
-        
+    // we consider collateral diagonal
+    for(int i=0, j=arrSize-1; i<arrSize-1, j>=0; i++,j--){
+        sum += arr[i][j];
+        //cout << "\ncollateral diagonal: " << arr[i][j] << endl;
+    }
+    // we consider sides of matrix
+    // a bottom of the matrix
+    for(int i=arrSize-1, j=1; j<arrSize; j++){
+        sum += arr[i][j];
+        //cout << "\n+a bottom of the matrix " << arr[i][j] << endl;
+    }
+    // a right side of the matrix
+    for(int i=1, j=arrSize-1; i<arrSize-1; i++){
+        sum += arr[i][j];
+        //cout << "\n+a right side of the matrix " << arr[i][j] << endl;
+    }
+
     /*sum -= arr[0][arrSize-1] -
     arr[arrSize-1][0] -
     arr[arrSize-1][arrSize-1];
@@ -157,4 +182,5 @@ void sumOfX()
     arr[arrSize-2][arrSize-3] + arr[arrSize-2][arrSize-1] +
     arr[arrSize-1][0] + arr[arrSize-1][arrSize-3] + arr[arrSize-1][arrSize-2] + arr[arrSize-1][arrSize-1];*/
     cout << "\nSum equal: " << sum << endl;
+    //system("pause");
 }
